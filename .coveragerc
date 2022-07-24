@@ -1,0 +1,6 @@
+[run]
+source = .
+omit = */env/*
+    */miqenv/*
+    */tests/*
+    fabfile.py
