@@ -23,6 +23,7 @@ def create_partner_view(request):
         'pay': data.pop('pay', None),
         'wears_lingerie': data.pop('wears_lingerie', 'non'),
         'is_newbie': data.pop('is_newbie', 'oui'),
+        'is_sn_active': data.pop('is_sn_active', 'non'),
     }
     ser = PartnerSerializer(data=data)
     ser.is_valid(raise_exception=True)
