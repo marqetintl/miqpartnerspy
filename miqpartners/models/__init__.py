@@ -23,8 +23,13 @@ def jsondef():
         'pay': '',
         # 'compensation': None
 
-        'wears_lingerie': False,
-        'is_newbie': True,
+        'wears_lingerie': 'non',
+        'is_newbie': 'oui',
+
+        # active on social media
+        'is_sn_active': 'non',
+        # activity frequency
+        'active_fq': ''
 
     })
 

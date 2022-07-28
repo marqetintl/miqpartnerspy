@@ -8,6 +8,7 @@ from rest_framework.decorators import action
 
 from miq.staff.mixins import LoginRequiredMixin
 from miq.core.permissions import DjangoModelPermissions
+from miq.core.pagination import MiqPageNumberPagination
 
 from ..models import Partner
 from ..serializers import PartnerSerializer
@@ -17,9 +18,14 @@ from ..serializers import PartnerSerializer
 # PRIVATE API
 #
 
+class Pagination(MiqPageNumberPagination):
+    page_size = 100
+
+
 class Mixin(LoginRequiredMixin):
     lookup_field = 'slug'
     parser_classes = (JSONParser, )
+    pagination_class = Pagination
     permission_classes = (IsAdminUser, DjangoModelPermissions)
 
 
@@ -28,20 +34,21 @@ class PartnerViewset(Mixin, viewsets.ModelViewSet):
     serializer_class = PartnerSerializer
     permission_classes = []
 
-    @action(methods=['patch'], detail=True, url_path=r'extra/')
-    def extra(self, *args, ** kwargs):
-        obj = self.get_object()
-        obj.extra = {**obj.extra, **self.request.data}
-        obj.save()
-        return self.retrieve(*args, **kwargs)
+    # @action(methods=['patch'], detail=True, url_path=r'extra/')
+    # def extra(self, *args, ** kwargs):
+    #     obj = self.get_object()
+    #     obj.extra = {**obj.extra, **self.request.data}
+    #     obj.save()
+    #     return self.retrieve(*args, **kwargs)
 
     def get_queryset(self):
         qs = super().get_queryset()
-        # params = self.request.query_params
+        params = self.request.query_params
 
-        # q = params.get('q')
-        # if q:
-        #     qs = qs.find(q)
+        if params.get('is_newbie') == 'true':
+            qs = qs.filter(extra__is_newbie='oui')
+        if params.get('wears_lingerie') == 'true':
+            qs = qs.filter(extra__wears_lingerie='oui')
 
         return qs
 

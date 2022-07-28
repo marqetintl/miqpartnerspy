@@ -15,15 +15,14 @@ from .serializers import PartnerSerializer
 @api_view(['POST'])
 @permission_classes([])
 def create_partner_view(request):
-
     data = request.data
     extra = {
         'age': data.pop('age', None),
         'size': data.pop('size', None),
         'interests': data.pop('interests', []),
         'pay': data.pop('pay', None),
-        'wears_lingerie': data.pop('wears_lingerie', False),
-        'is_newbie': data.pop('is_newbie', True),
+        'wears_lingerie': data.pop('wears_lingerie', 'non'),
+        'is_newbie': data.pop('is_newbie', 'oui'),
     }
     ser = PartnerSerializer(data=data)
     ser.is_valid(raise_exception=True)
