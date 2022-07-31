@@ -73,7 +73,9 @@ def partner_audit_view(request):
     if not username:
         return Response({'username': 'Required'}, status=400)
 
+    cached = False
     res = cache.get(username)
+
     if not res:
         print('Getting data')
         res = get_ig_username_info(username)
@@ -84,8 +86,11 @@ def partner_audit_view(request):
             cache.popitem(last=False)
 
         cache[username] = res
+    else:
+        cached = True
 
     if 'graphql' in res.keys():
         res = map_ig_graphql_to_user(res)
+        res['cached'] = cached
 
     return Response(res)
