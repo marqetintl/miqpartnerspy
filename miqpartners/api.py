@@ -2,7 +2,6 @@
 # PUBLIC API
 """
 
-import requests
 
 from rest_framework import serializers
 # from rest_framework import viewsets, serializers
@@ -37,13 +36,3 @@ def create_partner_view(request):
     ser.is_valid(raise_exception=True)
     ser.save(extra=data)
     return Response(ser.data, status=201)
-
-    # extra = {
-    #     'age': data.pop('age', None),
-    #     'size': data.pop('size', None),
-    #     'interests': data.pop('interests', []),
-    #     'pay': data.pop('pay', None),
-    #     'wears_lingerie': data.pop('wears_lingerie', 'non'),
-    #     'is_newbie': data.pop('is_newbie', 'oui'),
-    #     'is_sn_active': data.pop('is_sn_active', 'non'),
-    # }

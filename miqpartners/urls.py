@@ -26,5 +26,8 @@ urlpatterns = [
 ]
 
 urlpatterns += [
+
+    path(f'{settings.API_PATH}/partners/audit/',
+         viewsets.partner_audit_view, name='audit'),
     path(f'{settings.API_PATH}/', include(staff.urls)),
 ]
